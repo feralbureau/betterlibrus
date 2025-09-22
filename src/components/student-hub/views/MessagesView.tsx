@@ -100,7 +100,7 @@ export function MessagesView({ onOpenSheet }: MessagesViewProps) {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="px-4 md:px-0">
         <h2 className="text-2xl font-bold">{t('nav.messages')}</h2>
         {unreadCount > 0 && (
           <p className="text-sm text-muted-foreground">
@@ -110,22 +110,24 @@ export function MessagesView({ onOpenSheet }: MessagesViewProps) {
       </div>
 
       <Tabs value={activeFolder} onValueChange={setActiveFolder}>
-        <TabsList className="grid w-full grid-cols-3">
-          {folders.map((folder) => (
-            <TabsTrigger key={folder.id} value={folder.id} className="flex items-center gap-2">
-              {getFolderName(folder.id)}
-              {folder.count > 0 && (
-                <Badge variant="secondary" className="ml-1">
-                  {folder.count}
-                </Badge>
-              )}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="px-4 md:px-0">
+          <TabsList className="grid w-full grid-cols-3">
+            {folders.map((folder) => (
+              <TabsTrigger key={folder.id} value={folder.id} className="flex items-center justify-center gap-1 text-xs px-1">
+                <span className="whitespace-nowrap">{getFolderName(folder.id)}</span>
+                {folder.count > 0 && (
+                  <Badge variant="secondary" className="text-xs px-1 py-0">
+                    {folder.count}
+                  </Badge>
+                )}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
 
         {folders.map((folder) => (
           <TabsContent key={folder.id} value={folder.id} className="mt-6">
-            <div className="space-y-4">
+            <div className="px-4 md:px-0 space-y-4">
               {isLoading ? (
                 // Loading skeleton
                 <div className="space-y-3">
@@ -205,8 +207,8 @@ export function MessagesView({ onOpenSheet }: MessagesViewProps) {
 
               {/* Pagination Controls */}
               {!isLoading && pagination.totalPages > 1 && (
-                <div className="flex items-center justify-between mt-6 pt-4 border-t">
-                  <div className="text-sm text-muted-foreground">
+                <div className="flex flex-col sm:flex-row items-center justify-between mt-6 pt-4 border-t gap-4">
+                  <div className="text-sm text-muted-foreground text-center sm:text-left">
                     {t('common.showing')} {messages.length} {t('common.of')} {pagination.totalItems} {t('common.messages')}
                   </div>
                   <div className="flex items-center gap-2">
@@ -215,9 +217,10 @@ export function MessagesView({ onOpenSheet }: MessagesViewProps) {
                       size="sm"
                       onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                       disabled={!pagination.hasPrev}
+                      className="px-2 sm:px-3"
                     >
                       <ChevronLeft className="h-4 w-4" />
-                      {t('common.previous')}
+                      <span className="hidden sm:inline ml-1">{t('common.previous')}</span>
                     </Button>
                     <span className="px-3 py-1 text-sm">
                       {pagination.currentPage} / {pagination.totalPages}
@@ -227,8 +230,9 @@ export function MessagesView({ onOpenSheet }: MessagesViewProps) {
                       size="sm"
                       onClick={() => setCurrentPage(prev => Math.min(prev + 1, pagination.totalPages))}
                       disabled={!pagination.hasNext}
+                      className="px-2 sm:px-3"
                     >
-                      {t('common.next')}
+                      <span className="hidden sm:inline mr-1">{t('common.next')}</span>
                       <ChevronRight className="h-4 w-4" />
                     </Button>
                   </div>
