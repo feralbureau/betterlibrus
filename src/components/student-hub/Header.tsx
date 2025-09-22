@@ -27,7 +27,6 @@ export function Header({ activeView, onNavigate }: HeaderProps) {
           setUserFirstName(firstName);
         }
       } catch (error) {
-        console.error('Failed to load user data for header:', error);
         // Keep default "Student" if loading fails
       }
     };

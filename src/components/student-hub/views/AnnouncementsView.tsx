@@ -31,7 +31,7 @@ export function AnnouncementsView({ onOpenSheet }: AnnouncementsViewProps) {
 
     if (isLoading) {
         return (
-            <Section title="School Announcements">
+            <Section title={t('announcements.schoolAnnouncements')}>
                 <div className="px-4 md:px-0 space-y-3">
                     {[...Array(3)].map((_, i) => (
                         <div key={i} className="p-4 space-y-3 rounded-lg border bg-card text-card-foreground">
@@ -58,7 +58,7 @@ export function AnnouncementsView({ onOpenSheet }: AnnouncementsViewProps) {
     }
 
     return (
-        <Section title="School Announcements">
+        <Section title={t('announcements.schoolAnnouncements')}>
             <Announcements announcements={announcements} onAnnouncementClick={onOpenSheet} />
         </Section>
     );

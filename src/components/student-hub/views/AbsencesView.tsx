@@ -27,8 +27,8 @@ export function AbsencesView() {
 
     if (isLoading) {
         return (
-            <Section title="Absence Record">
-                 <div className="px-4 md:px-0 space-y-3">
+            <Section title={t('absences.absenceRecord')}>
+                <div className="px-4 md:px-0 space-y-3">
                     {[...Array(3)].map((_, i) => (
                         <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
                             <div className="flex justify-between items-start">
@@ -56,7 +56,7 @@ export function AbsencesView() {
     }
 
     return (
-        <Section title="Absence Record">
+        <Section title={t('absences.absenceRecord')}>
             <Absences absences={absences} />
         </Section>
     );

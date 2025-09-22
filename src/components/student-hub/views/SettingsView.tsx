@@ -3,17 +3,16 @@
 import { useState, useEffect } from 'react';
 import { Section } from '@/components/student-hub/Section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getUser } from '@/lib/api';
 import { usePrivacy } from '@/contexts/PrivacyContext';
-import { useLanguage, type Language } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { useFont } from '@/contexts/FontContext';
 import { useRoundness } from '@/contexts/RoundnessContext';
-import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, Globe, LogOut } from 'lucide-react';
+import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface UserProfile {
@@ -43,15 +42,13 @@ export function SettingsView() {
       const response = await fetch('/api/logout', {
         method: 'POST',
       });
-      
+
       if (response.ok) {
         // Redirect to login page
         window.location.href = '/login';
       } else {
-        console.error('Logout failed');
       }
     } catch (error) {
-      console.error('Logout error:', error);
     } finally {
       setShowLogoutConfirm(false);
     }
@@ -73,14 +70,14 @@ export function SettingsView() {
         // Transform the real API data into our profile format
         const profileData: UserProfile = {
           name: userData.user?.fullName || userData.user?.name || 'Student',
-          email: userData.user?.email || 'Not provided',
-          phone: userData.user?.phone || 'Not provided', 
-          address: userData.user?.address || 'Not provided',
-          class: userData.user?.class || 'Not assigned',
+          email: userData.user?.email || t('common.notProvided'),
+          phone: userData.user?.phone || t('common.notProvided'),
+          address: userData.user?.address || t('common.notProvided'),
+          class: userData.user?.class || t('common.notAssigned'),
           studentId: userData.user?.studentId || userData.user?.id || 'N/A',
-          enrollmentDate: userData.user?.enrollmentDate || 'Not provided',
-          educator: userData.user?.educator || 'Not assigned',
-          status: (userData.success ? 'Active' : 'Inactive') as 'Active' | 'Inactive'
+          enrollmentDate: userData.user?.enrollmentDate || t('common.notProvided'),
+          educator: userData.user?.educator || t('common.notAssigned'),
+          status: (userData.success ? t('common.active') : t('common.inactive')) as 'Active' | 'Inactive'
         };
 
         console.log('🔄 Transformed profile data:', JSON.stringify(profileData, null, 2));
@@ -88,29 +85,28 @@ export function SettingsView() {
       } catch (error: any) {
         console.error('🔥 Failed to load profile:', error);
         console.error('📋 Error details:', {
-          message: error?.message || 'Unknown error',
+          message: error?.message || t('common.error'),
           stack: error?.stack || 'No stack trace',
-          name: error?.name || 'Unknown error type'
+          name: error?.name || t('common.unknown')
         });
-        
+
         // Fallback data if API fails
         const fallbackProfile: UserProfile = {
           name: 'Student',
           email: 'student@example.com',
-          phone: 'Not provided',
-          address: 'Not provided',
-          class: 'Not assigned',
+          phone: t('common.notProvided'),
+          address: t('common.notProvided'),
+          class: t('common.notAssigned'),
           studentId: 'N/A',
           enrollmentDate: '2024-09-01',
-          status: 'Active' as 'Active'
+          status: t('common.active') as 'Active'
         };
-        console.log('⚠️ Using fallback profile data:', JSON.stringify(fallbackProfile, null, 2));
         setProfile(fallbackProfile);
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     loadProfile();
   }, []);
 
@@ -118,7 +114,7 @@ export function SettingsView() {
     return (
       <div className="space-y-8">
         {/* Profile Section Loading */}
-        <Section title="Profile">
+        <Section title={t('settings.profile')}>
           <div className="px-4 md:px-0">
             <Card>
               <CardHeader className="pb-4">
@@ -148,7 +144,7 @@ export function SettingsView() {
         </Section>
 
         {/* Preferences Loading */}
-        <Section title="Preferences">
+        <Section title={t('settings.preferences')}>
           <div className="px-4 md:px-0 space-y-3">
             {[...Array(2)].map((_, i) => (
               <Card key={i} className="cursor-pointer">
@@ -170,7 +166,7 @@ export function SettingsView() {
   return (
     <div className="space-y-8">
       {/* Profile Section */}
-      <Section title="Profile">
+      <Section title={t('settings.profile')}>
         <div className="px-4 md:px-0">
           <Card>
             <CardHeader className="pb-4">
@@ -188,7 +184,7 @@ export function SettingsView() {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {profile?.email && profile.email !== 'Not provided' && (
+                {profile?.email && profile.email !== t('common.notProvided') && (
                   <div className="flex items-center gap-3">
                     <Mail className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -197,8 +193,8 @@ export function SettingsView() {
                     </div>
                   </div>
                 )}
-                
-                {profile?.phone && profile.phone !== 'Not provided' && (
+
+                {profile?.phone && profile.phone !== t('common.notProvided') && (
                   <div className="flex items-center gap-3">
                     <Phone className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -207,8 +203,8 @@ export function SettingsView() {
                     </div>
                   </div>
                 )}
-                
-                {profile?.class && profile.class !== 'Not assigned' && (
+
+                {profile?.class && profile.class !== t('common.notAssigned') && (
                   <div className="flex items-center gap-3">
                     <GraduationCap className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -217,8 +213,8 @@ export function SettingsView() {
                     </div>
                   </div>
                 )}
-                
-                {profile?.educator && profile.educator !== 'Not assigned' && (
+
+                {profile?.educator && profile.educator !== t('common.notAssigned') && (
                   <div className="flex items-center gap-3">
                     <User className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -227,8 +223,8 @@ export function SettingsView() {
                     </div>
                   </div>
                 )}
-                
-                {profile?.enrollmentDate && profile.enrollmentDate !== 'Not provided' && (
+
+                {profile?.enrollmentDate && profile.enrollmentDate !== t('common.notProvided') && (
                   <div className="flex items-center gap-3">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
                     <div>
@@ -237,8 +233,8 @@ export function SettingsView() {
                     </div>
                   </div>
                 )}
-                
-                {profile?.address && profile.address !== 'Not provided' && (
+
+                {profile?.address && profile.address !== t('common.notProvided') && (
                   <div className="flex items-start gap-3 md:col-span-2">
                     <MapPin className="h-4 w-4 text-muted-foreground mt-1" />
                     <div>
@@ -254,7 +250,7 @@ export function SettingsView() {
       </Section>
 
       {/* Preferences */}
-      <Section title="Preferences">
+      <Section title={t('settings.preferences')}>
         <div className="px-4 md:px-0 space-y-3">
           <Sheet>
             <SheetTrigger asChild>
@@ -285,7 +281,7 @@ export function SettingsView() {
                     onCheckedChange={setPrivacyMode}
                   />
                 </div>
-                
+
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <p className="font-medium">{t('settings.roundness')}</p>
@@ -298,7 +294,7 @@ export function SettingsView() {
                     onCheckedChange={setRoundedMode}
                   />
                 </div>
-                
+
                 <div className="space-y-4">
                   <div className="space-y-1">
                     <p className="font-medium">{t('settings.font')}</p>
@@ -306,9 +302,9 @@ export function SettingsView() {
                       {t('settings.fontDesc')}
                     </p>
                   </div>
-                  
-                  <Select 
-                    value={selectedFont.id} 
+
+                  <Select
+                    value={selectedFont.id}
                     onValueChange={(value) => {
                       const font = fontOptions.find(f => f.id === value);
                       if (font) setSelectedFont(font);
@@ -394,9 +390,9 @@ export function SettingsView() {
                 <p className="text-center text-muted-foreground">
                   {t('logout.confirmText')}
                 </p>
-                <Button 
+                <Button
                   onClick={handleLogout}
-                  variant="destructive" 
+                  variant="destructive"
                   className="w-full"
                   size="lg"
                 >

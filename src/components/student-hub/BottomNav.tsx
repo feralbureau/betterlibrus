@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, Calendar, Star, ListChecks, FileText, Bell } from 'lucide-react';
+import { Home, Calendar, Star, ListChecks, FileText, Bell, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import type { View } from '@/lib/types';
@@ -16,6 +16,7 @@ const navItems = [
   { view: 'Grades', icon: Star, label: 'Grades' },
   { view: 'Absences', icon: ListChecks, label: 'Absences' },
   { view: 'Exams', icon: FileText, label: 'Exams' },
+  { view: 'Messages', icon: Mail, label: 'Messages' },
   { view: 'Announcements', icon: Bell, label: 'Announcements' },
 ] as const;
 

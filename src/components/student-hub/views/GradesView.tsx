@@ -22,7 +22,6 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                 const data = await getGrades();
                 setGrades(data);
                 if (process.env.NODE_ENV === 'development') {
-                    console.log('GradesView: Loaded grades data:', data);
                 }
             } catch (error) {
                 console.error("Failed to fetch grades", error);
@@ -50,7 +49,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
         }
 
         const overallAverage = subjectAverages.reduce((sum, avg) => sum + avg, 0) / subjectAverages.length;
-        
+
         // Since we don't have semester breakdown, we'll show the same for both
         // In a real implementation, you'd need semester-specific data from the API
         return {
@@ -68,7 +67,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
     if (isLoading) {
         return (
             <div className="space-y-8">
-                <Section title="Averages">
+                <Section title={t('grades.averages')}>
                     <div className="px-4 md:px-0 grid grid-cols-2 gap-4 mb-4">
                         <Card>
                             <CardHeader className="pb-2">
@@ -88,7 +87,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                         </Card>
                     </div>
                     <div className="px-4 md:px-0">
-                         <Card>
+                        <Card>
                             <CardHeader className="pb-2">
                                 <Skeleton className="h-5 w-32" />
                             </CardHeader>
@@ -98,7 +97,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                         </Card>
                     </div>
                 </Section>
-                <Section title="Grades by Subject">
+                <Section title={t('grades.gradesBySubject')}>
                     <div className="w-full">
                         <div className="flex space-x-4 p-4 md:px-0 overflow-hidden">
                             {[...Array(3)].map((_, i) => (
@@ -123,26 +122,26 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
 
     return (
         <div className="space-y-8">
-            <Section title="Averages">
-                 <div className="px-4 md:px-0 grid grid-cols-2 gap-4 mb-4">
+            <Section title={t('grades.averages')}>
+                <div className="px-4 md:px-0 grid grid-cols-2 gap-4 mb-4">
                     <Card>
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium">1st Semester</CardTitle>
                         </CardHeader>
                         <CardContent>
-                             <div className="text-2xl font-bold">{semester1Avg > 0 ? semester1Avg.toFixed(1) : '-'}</div>
+                            <div className="text-2xl font-bold">{semester1Avg > 0 ? semester1Avg.toFixed(1) : '-'}</div>
                         </CardContent>
                     </Card>
-                     <Card>
+                    <Card>
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium">2nd Semester</CardTitle>
                         </CardHeader>
                         <CardContent>
-                             <div className="text-2xl font-bold">{semester2Avg > 0 ? semester2Avg.toFixed(1) : '-'}</div>
+                            <div className="text-2xl font-bold">{semester2Avg > 0 ? semester2Avg.toFixed(1) : '-'}</div>
                         </CardContent>
                     </Card>
                 </div>
-                 <div className="px-4 md:px-0">
+                <div className="px-4 md:px-0">
                     <Card>
                         <CardHeader className="pb-2">
                             <CardTitle className="text-sm font-medium">Full Year Average</CardTitle>
@@ -153,7 +152,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                     </Card>
                 </div>
             </Section>
-            <Section title="Grades by Subject">
+            <Section title={t('grades.gradesBySubject')}>
                 <Grades grades={grades} onGradeClick={onOpenSheet} />
             </Section>
         </div>

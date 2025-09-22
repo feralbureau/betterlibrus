@@ -1,5 +1,5 @@
 
-import type { Lesson, SubjectGrade, Absence, Exam, Announcement, Day } from './types';
+import type { Lesson, SubjectGrade, Absence, Exam, Announcement, Message, MessageFolder, Day } from './types';
 import { BookOpen, Calculator, FlaskConical, Globe, Palette, Languages } from 'lucide-react';
 
 // A helper function to make fetch requests and handle errors
@@ -48,8 +48,7 @@ export async function getTimetable(): Promise<Lesson[]> {
     // The API returns an object with days as keys, so we need to flatten and map it.
     const lessons: Lesson[] = Object.entries(apiData).flatMap(([day, dayLessons]) => {
         const dayNumber = parseInt(day.replace('d', ''), 10);
-        const lessonsArray = Array.isArray(dayLessons) ? dayLessons : [];
-        
+
         if (!Array.isArray(dayLessons)) {
             return [];
         }
@@ -63,18 +62,18 @@ export async function getTimetable(): Promise<Lesson[]> {
             type: 'lesson'
         }));
     });
-    
+
     return lessons;
 }
 
 export async function getGrades(): Promise<SubjectGrade[]> {
     const apiData = await fetchData('/api/grades');
-    
+
     // Check if apiData is valid and is an array
     if (!apiData || !Array.isArray(apiData)) {
         return [];
     }
-    
+
     // The API returns an array of subjects, each with an array of grades.
     // We need to map this to our SubjectGrade type.
     return apiData.map((subject: any) => ({
@@ -95,12 +94,12 @@ export async function getGrades(): Promise<SubjectGrade[]> {
 
 export async function getAbsences(): Promise<Absence[]> {
     const apiData = await fetchData('/api/absences');
-    
+
     // Check if apiData is valid and is an array
     if (!apiData || !Array.isArray(apiData)) {
         return [];
     }
-    
+
     // The API returns an array of absences, which we map to our Absence type.
     return apiData.map((absence: any) => ({
         id: absence.id || `absence-${Math.random()}`,
@@ -108,19 +107,19 @@ export async function getAbsences(): Promise<Absence[]> {
         teacher: absence.teacher?.name || 'Unknown Teacher',
         date: absence.date ? new Date(absence.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         reason: absence.reason || 'Not specified',
-        status: absence.isExcused ? 'Excused' : (absence.isPresenceJustified ? 'Pending' : 'Unexcused'),
+        status: absence.isExcused ? 'Excused' : absence.isPresenceJustified ? 'Pending' : 'Unexcused',
         type: 'absence'
     }));
 }
 
 export async function getExams(): Promise<Exam[]> {
     const apiData = await fetchData('/api/exams');
-    
+
     // Check if apiData is valid and is an array
     if (!apiData || !Array.isArray(apiData)) {
         return [];
     }
-    
+
     // The API returns calendar events, we map them to our Exam type.
     return apiData.map((event: any) => ({
         id: event.id || `exam-${Math.random()}`,
@@ -134,17 +133,17 @@ export async function getExams(): Promise<Exam[]> {
 
 export async function getAnnouncements(): Promise<Announcement[]> {
     const apiData = await fetchData('/api/announcements');
-    
+
     // Check if apiData is valid and is an array
     if (!apiData || !Array.isArray(apiData)) {
         return [];
     }
-    
+
     // The API returns announcements, we map them to our Announcement type.
     return apiData.map((announcement: any) => ({
         id: announcement.id || `announcement-${Math.random()}`,
         title: announcement.title || announcement.subject || announcement.name || 'Untitled',
-        content: announcement.content || announcement.body || announcement.text || '', 
+        content: announcement.content || announcement.body || announcement.text || '',
         author: announcement.user || announcement.author?.name || announcement.sender?.name || announcement.from || 'Unknown Author',
         date: announcement.date ? new Date(announcement.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         type: 'announcement' as const
@@ -154,3 +153,117 @@ export async function getAnnouncements(): Promise<Announcement[]> {
 export async function getUser(): Promise<any> {
     return await fetchData('/api/user');
 }
+
+// Message-related API functions
+export async function getMessageFolders(): Promise<MessageFolder[]> {
+    const apiData = await fetchData('/api/messages/folders');
+
+    if (!apiData || !Array.isArray(apiData)) {
+        return [];
+    }
+
+    return apiData.map((folder: any) => ({
+        id: folder.id || `folder-${Math.random()}`,
+        name: folder.name || 'Unknown Folder',
+        count: folder.count || 0
+    }));
+}
+
+export interface PaginatedResponse<T> {
+    messages: T[];
+    pagination: {
+        currentPage: number;
+        totalPages: number;
+        totalItems: number;
+        hasNext: boolean;
+        hasPrev: boolean;
+    };
+}
+
+export async function getMessages(folderId: string, page = 1, limit = 10): Promise<PaginatedResponse<Message>> {
+    const apiData = await fetchData(`/api/messages/${folderId}?page=${page}&limit=${limit}`);
+
+    // Handle new paginated format
+    if (apiData?.messages && Array.isArray(apiData.messages)) {
+        return {
+            messages: apiData.messages.map((message: any) => ({
+                id: message.id || `msg-${Math.random()}`,
+                title: message.title || 'No Subject',
+                content: message.content || '',
+                html: message.html || '',
+                user: message.user || 'Unknown Sender',
+                date: message.date || new Date().toISOString().split('T')[0],
+                read: message.read || false,
+                folderId: message.folderId || folderId,
+                files: Array.isArray(message.files) ? message.files : [],
+                type: 'message' as const
+            })),
+            pagination: apiData.pagination || {
+                currentPage: 1,
+                totalPages: 1,
+                totalItems: apiData.messages.length,
+                hasNext: false,
+                hasPrev: false
+            }
+        };
+    }
+
+    // Handle legacy array format for backward compatibility
+    if (Array.isArray(apiData)) {
+        const messages = apiData.map((message: any) => ({
+            id: message.id || `msg-${Math.random()}`,
+            title: message.title || 'No Subject',
+            content: message.content || '',
+            html: message.html || '',
+            user: message.user || 'Unknown Sender',
+            date: message.date || new Date().toISOString().split('T')[0],
+            read: message.read || false,
+            folderId: message.folderId || folderId,
+            files: Array.isArray(message.files) ? message.files : [],
+            type: 'message' as const
+        }));
+
+        return {
+            messages,
+            pagination: {
+                currentPage: 1,
+                totalPages: 1,
+                totalItems: messages.length,
+                hasNext: false,
+                hasPrev: false
+            }
+        };
+    }
+
+    // Default empty response
+    return {
+        messages: [],
+        pagination: {
+            currentPage: 1,
+            totalPages: 0,
+            totalItems: 0,
+            hasNext: false,
+            hasPrev: false
+        }
+    };
+}
+
+export async function getMessage(folderId: string, messageId: string): Promise<Message> {
+    const apiData = await fetchData(`/api/messages/${folderId}/${messageId}`);
+
+    return {
+        id: apiData.id || messageId,
+        title: apiData.title || 'No Subject',
+        content: apiData.content || '',
+        html: apiData.html || '',
+        user: apiData.user || 'Unknown Sender',
+        date: apiData.date || new Date().toISOString().split('T')[0],
+        read: apiData.read || false,
+        folderId: apiData.folderId || folderId,
+        files: Array.isArray(apiData.files) ? apiData.files : [],
+        type: 'message' as const
+    };
+}
+
+
+

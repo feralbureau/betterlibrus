@@ -27,31 +27,31 @@ export function ExamsView() {
 
     if (isLoading) {
         return (
-            <Section title="Exam Schedule">
+            <Section title={t('exams.examSchedule')}>
                 <div className="px-4 md:px-0 space-y-3">
                     {[...Array(3)].map((_, i) => (
-                         <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
-                             <div className="flex items-center gap-4">
+                        <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
+                            <div className="flex items-center gap-4">
                                 <div className="flex flex-col items-center justify-center p-3 rounded-md bg-muted border w-20">
                                     <Skeleton className="h-4 w-10 mb-1" />
                                     <Skeleton className="h-8 w-8" />
                                 </div>
                                 <div className="flex-grow space-y-2">
-                                  <Skeleton className="h-5 w-3/4" />
-                                  <Skeleton className="h-4 w-1/2" />
+                                    <Skeleton className="h-5 w-3/4" />
+                                    <Skeleton className="h-4 w-1/2" />
                                 </div>
                             </div>
                             <div className="flex items-center justify-end gap-4 pt-2">
-                                 <div className='flex items-center gap-2'>
+                                <div className='flex items-center gap-2'>
                                     <Skeleton className="h-4 w-4" />
                                     <Skeleton className="h-4 w-12" />
                                 </div>
-                                 <div className='flex items-center gap-2'>
+                                <div className='flex items-center gap-2'>
                                     <Skeleton className="h-4 w-4" />
                                     <Skeleton className="h-4 w-20" />
                                 </div>
                             </div>
-                         </div>
+                        </div>
                     ))}
                 </div>
             </Section>
@@ -59,7 +59,7 @@ export function ExamsView() {
     }
 
     return (
-        <Section title="Exam Schedule">
+        <Section title={t('exams.examSchedule')}>
             <Exams exams={exams} />
         </Section>
     );

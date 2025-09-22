@@ -42,14 +42,14 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
 
     if (isLoading || !initialDay) {
         return (
-            <Section title="Weekly Timetable">
+            <Section title={t('timetable.weeklyTimetable')}>
                 <div className="w-full space-y-4">
                     <div className="flex items-center gap-2 px-4 md:px-0">
                         <Skeleton className="h-12 flex-grow rounded-lg" />
                         <Skeleton className="h-12 w-12 rounded-lg" />
                     </div>
                     <div className="px-4 md:px-0 space-y-3">
-                         {[...Array(4)].map((_, i) => (
+                        {[...Array(4)].map((_, i) => (
                             <div key={i} className="p-4 flex justify-between items-center rounded-lg border bg-card">
                                 <div className="space-y-2">
                                     <Skeleton className="h-5 w-32" />
@@ -67,7 +67,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
     }
 
     return (
-        <Section title="Weekly Timetable">
+        <Section title={t('timetable.weeklyTimetable')}>
             <Timetable lessons={lessons} onLessonClick={onOpenSheet} initialDay={initialDay} />
         </Section>
     );
