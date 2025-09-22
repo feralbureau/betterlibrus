@@ -7,14 +7,16 @@ import { getGrades } from '@/lib/api';
 import type { DetailItem, SubjectGrade } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface GradesViewProps {
     onOpenSheet: (item: DetailItem) => void;
 }
 
-export function GradesView({ onOpenSheet }: GradesViewProps) {
+export function GradesView({ onOpenSheet }: Readonly<GradesViewProps>) {
     const [isLoading, setIsLoading] = useState(true);
     const [grades, setGrades] = useState<SubjectGrade[]>([]);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -22,6 +24,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                 const data = await getGrades();
                 setGrades(data);
                 if (process.env.NODE_ENV === 'development') {
+                    console.log('Grades loaded:', data.length);
                 }
             } catch (error) {
                 console.error("Failed to fetch grades", error);
@@ -101,7 +104,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                     <div className="w-full">
                         <div className="flex space-x-4 p-4 md:px-0 overflow-hidden">
                             {[...Array(3)].map((_, i) => (
-                                <div key={i} className="w-60 flex-shrink-0 space-y-3 p-4 rounded-lg border bg-card">
+                                <div key={`grade-skeleton-${i}`} className="w-60 flex-shrink-0 space-y-3 p-4 rounded-lg border bg-card">
                                     <div className="flex items-center gap-3">
                                         <Skeleton className="w-10 h-10 rounded-lg" />
                                         <Skeleton className="h-5 w-24" />

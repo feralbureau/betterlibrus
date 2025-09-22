@@ -6,10 +6,12 @@ import { Exams } from '@/components/student-hub/Exams';
 import { getExams } from '@/lib/api';
 import type { Exam } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function ExamsView() {
     const [isLoading, setIsLoading] = useState(true);
     const [exams, setExams] = useState<Exam[]>([]);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -29,8 +31,8 @@ export function ExamsView() {
         return (
             <Section title={t('exams.examSchedule')}>
                 <div className="px-4 md:px-0 space-y-3">
-                    {[...Array(3)].map((_, i) => (
-                        <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
+                    {Array.from({ length: 3 }, (_, i) => (
+                        <div key={`exam-skeleton-${Date.now()}-${i}`} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
                             <div className="flex items-center gap-4">
                                 <div className="flex flex-col items-center justify-center p-3 rounded-md bg-muted border w-20">
                                     <Skeleton className="h-4 w-10 mb-1" />
