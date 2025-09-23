@@ -6,6 +6,7 @@ import { Announcements } from '@/components/student-hub/Announcements';
 import { getAnnouncements } from '@/lib/api';
 import type { DetailItem, Announcement } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface AnnouncementsViewProps {
     onOpenSheet: (item: DetailItem) => void;
@@ -14,6 +15,7 @@ interface AnnouncementsViewProps {
 export function AnnouncementsView({ onOpenSheet }: AnnouncementsViewProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
