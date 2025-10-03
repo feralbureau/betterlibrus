@@ -7,6 +7,7 @@ import { Timetable } from '@/components/student-hub/Timetable';
 import { getTimetable } from '@/lib/api';
 import type { DetailItem, Day, Lesson } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TimetableViewProps {
     onOpenSheet: (item: DetailItem) => void;
@@ -20,10 +21,11 @@ function getToday(): Day {
     return today as Day;
 }
 
-export function TimetableView({ onOpenSheet }: TimetableViewProps) {
+export function TimetableView({ onOpenSheet }: Readonly<TimetableViewProps>) {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [initialDay, setInitialDay] = useState<Day | null>(null);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -42,15 +44,15 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
 
     if (isLoading || !initialDay) {
         return (
-            <Section title="Weekly Timetable">
+            <Section title={t('timetable.weeklyTimetable')}>
                 <div className="w-full space-y-4">
                     <div className="flex items-center gap-2 px-4 md:px-0">
                         <Skeleton className="h-12 flex-grow rounded-lg" />
                         <Skeleton className="h-12 w-12 rounded-lg" />
                     </div>
                     <div className="px-4 md:px-0 space-y-3">
-                         {[...Array(4)].map((_, i) => (
-                            <div key={i} className="p-4 flex justify-between items-center rounded-lg border bg-card">
+                        {[...Array(4)].map((_, i) => (
+                            <div key={`skeleton-${i}`} className="p-4 flex justify-between items-center rounded-lg border bg-card">
                                 <div className="space-y-2">
                                     <Skeleton className="h-5 w-32" />
                                     <Skeleton className="h-4 w-40" />
@@ -67,7 +69,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
     }
 
     return (
-        <Section title="Weekly Timetable">
+        <Section title={t('timetable.weeklyTimetable')}>
             <Timetable lessons={lessons} onLessonClick={onOpenSheet} initialDay={initialDay} />
         </Section>
     );

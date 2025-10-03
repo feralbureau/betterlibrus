@@ -1,13 +1,15 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import type { Lesson, DetailItem, Day, SubjectGrade } from '@/lib/types';
+import type { Lesson, DetailItem, Day, SubjectGrade, Message } from '@/lib/types';
 import { Section } from '@/components/student-hub/Section';
-import { getTimetable, getGrades } from '@/lib/api';
+import { getTimetable, getGrades, getMessages } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
 import { NewGradesList } from '@/components/student-hub/NewGradesList';
+import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Mail } from 'lucide-react';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -24,21 +26,22 @@ function getDayOfWeek(date: Date): 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' {
     return today;
 }
 
-export function HomeView({ onOpenSheet }: HomeViewProps) {
+export function HomeView({ onOpenSheet }: Readonly<HomeViewProps>) {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [grades, setGrades] = useState<SubjectGrade[]>([]);
+    const [messages, setMessages] = useState<Message[]>([]);
     const [currentTime, setCurrentTime] = useState(new Date());
     const { anonymizeName } = usePrivacy();
     const { t } = useLanguage();
 
     const getDayName = (dayKey: Day): string => {
-        const names = { 
-            MON: t('timetable.monday'), 
-            TUE: t('timetable.tuesday'), 
-            WED: t('timetable.wednesday'), 
-            THU: t('timetable.thursday'), 
-            FRI: t('timetable.friday') 
+        const names = {
+            MON: t('timetable.monday'),
+            TUE: t('timetable.tuesday'),
+            WED: t('timetable.wednesday'),
+            THU: t('timetable.thursday'),
+            FRI: t('timetable.friday')
         };
         return names[dayKey];
     };
@@ -46,27 +49,28 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
     useEffect(() => {
         async function loadData() {
             try {
-                const [timetableData, gradesData] = await Promise.all([
+                const [timetableData, gradesData, messagesResponse] = await Promise.all([
                     getTimetable(),
-                    getGrades()
+                    getGrades(),
+                    getMessages('5').catch(() => ({ messages: [], pagination: {} })) // Inbox folder (5), gracefully handle errors
                 ]);
                 setLessons(timetableData);
                 setGrades(gradesData);
+                setMessages(messagesResponse.messages || []);
             } catch (error) {
-                console.error("Failed to fetch data", error);
             } finally {
                 setIsLoading(false);
             }
         }
         loadData();
-        
+
         const interval = setInterval(() => setCurrentTime(new Date()), 60000); // Update every minute
         return () => clearInterval(interval);
     }, []);
 
     if (isLoading) {
         return (
-             <div className="space-y-8">
+            <div className="space-y-8">
                 <Section title={t('home.nextLesson')}>
                     <div className="px-4 md:px-0">
                         <div className="p-4 flex justify-between items-center rounded-lg border bg-card">
@@ -80,7 +84,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </div>
                     </div>
                 </Section>
-                 <Section title={t('home.newGrades')}>
+                <Section title={t('home.newGrades')}>
                     <div className="px-4 md:px-0">
                         <div className="p-4 rounded-lg border bg-card">
                             <div className="flex space-x-3">
@@ -93,8 +97,8 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </div>
                     </div>
                 </Section>
-                <Section title="Today">
-                     <div className="px-4 md:px-0 space-y-3">
+                <Section title={t('home.today')}>
+                    <div className="px-4 md:px-0 space-y-3">
                         {[...Array(3)].map((_, i) => (
                             <div key={i} className="p-4 flex justify-between items-center rounded-lg border bg-card">
                                 <div className="space-y-2">
@@ -106,14 +110,14 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                                 </div>
                             </div>
                         ))}
-                     </div>
+                    </div>
                 </Section>
             </div>
         );
     }
 
     const todayKey = getDayOfWeek(currentTime);
-    const todaysLessons = lessons.filter(lesson => lesson.day === todayKey).sort((a,b) => a.time.localeCompare(b.time));
+    const todaysLessons = lessons.filter(lesson => lesson.day === todayKey).sort((a, b) => a.time.localeCompare(b.time));
 
     const toMinutes = (timeStr: string) => {
         const [hours, minutes] = timeStr.split(':').map(Number);
@@ -136,39 +140,73 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
         <div className="space-y-8">
             <Section title={t('home.nextLesson')}>
                 <div className="px-4 md:px-0">
-                {nextLesson ? (
-                     <Card
-                        className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md"
-                        onClick={() => onOpenSheet(nextLesson)}
-                      >
-                        <CardContent className="p-4 flex justify-between items-center">
-                          <div>
-                            <p className="font-bold">{nextLesson.subject}</p>
-                            <p className="text-sm text-muted-foreground">{`${anonymizeName(nextLesson.teacher)} · ${nextLesson.room}`}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-sm font-medium">{nextLesson.time}</p>
-                          </div>
-                        </CardContent>
-                      </Card>
-                ) : (
-                    <Card className="bg-card/50">
-                        <CardContent className="p-8 text-center text-muted-foreground">
-                            <p>No more lessons today.</p>
-                        </CardContent>
-                    </Card>
-                )}
+                    {nextLesson ? (
+                        <Card
+                            className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md"
+                            onClick={() => onOpenSheet(nextLesson)}
+                        >
+                            <CardContent className="p-4 flex justify-between items-center">
+                                <div>
+                                    <p className="font-bold">{nextLesson.subject}</p>
+                                    <p className="text-sm text-muted-foreground">{`${anonymizeName(nextLesson.teacher)} · ${nextLesson.room}`}</p>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm font-medium">{nextLesson.time}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ) : (
+                        <Card className="bg-card/50">
+                            <CardContent className="p-8 text-center text-muted-foreground">
+                                <p>{t('home.noMoreLessonsToday')}</p>
+                            </CardContent>
+                        </Card>
+                    )}
                 </div>
             </Section>
 
             <Section title={t('home.newGrades')}>
-                 <div className="px-4 md:px-0">
+                <div className="px-4 md:px-0">
                     <NewGradesList grades={grades} onGradeClick={(grade) => onOpenSheet(grade)} />
                 </div>
             </Section>
 
+            <Section title={t('messages.unreadMessages')}>
+                <div className="px-4 md:px-0 space-y-3">
+                    {messages.filter(msg => !msg.read).length > 0 ? (
+                        messages.filter(msg => !msg.read).slice(0, 3).map(message => (
+                            <Card
+                                key={message.id}
+                                className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md border-primary/50 bg-accent/20"
+                                onClick={() => onOpenSheet(message)}
+                            >
+                                <CardContent className="p-4 flex justify-between items-center">
+                                    <div className="flex items-center space-x-3 flex-1 min-w-0">
+                                        <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                                        <div className="flex-1 min-w-0">
+                                            <p className="font-medium truncate">{message.title}</p>
+                                            <p className="text-sm text-muted-foreground truncate">{anonymizeName(message.user)}</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right flex items-center gap-2">
+                                        <p className="text-xs text-muted-foreground">{message.date}</p>
+                                        <Badge variant="secondary" className="text-xs">New</Badge>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))
+                    ) : (
+                        <Card className="bg-card/50">
+                            <CardContent className="p-8 text-center text-muted-foreground">
+                                <p>{t('messages.noMessages')}</p>
+                            </CardContent>
+                        </Card>
+                    )}
+                </div>
+            </Section>
+
             <Section title={getDayName(todayKey)}>
-                 <div className="px-4 md:px-0 space-y-3">
+                <div className="px-4 md:px-0 space-y-3">
                     {todaysLessons.length > 0 ? (
                         todaysLessons.map(lesson => (
                             <Card
@@ -180,13 +218,13 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                                 onClick={() => onOpenSheet(lesson)}
                             >
                                 <CardContent className="p-4 flex justify-between items-center">
-                                <div>
-                                    <p className="font-bold">{lesson.subject}</p>
-                                    <p className="text-sm text-muted-foreground">{`${anonymizeName(lesson.teacher)} · ${lesson.room}`}</p>
-                                </div>
-                                <div className="text-right">
-                                    <p className="text-sm font-medium">{lesson.time}</p>
-                                </div>
+                                    <div>
+                                        <p className="font-bold">{lesson.subject}</p>
+                                        <p className="text-sm text-muted-foreground">{`${anonymizeName(lesson.teacher)} · ${lesson.room}`}</p>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="text-sm font-medium">{lesson.time}</p>
+                                    </div>
                                 </CardContent>
                             </Card>
                         ))
@@ -197,7 +235,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                             </CardContent>
                         </Card>
                     )}
-                 </div>
+                </div>
             </Section>
         </div>
     );

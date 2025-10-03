@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 
 export type Day = 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI';
 
-export type View = 'Home' | 'Timetable' | 'Grades' | 'Absences' | 'Exams' | 'Announcements' | 'Settings';
+export type View = 'Home' | 'Timetable' | 'Grades' | 'Absences' | 'Exams' | 'Announcements' | 'Messages' | 'Settings';
 
 export interface Lesson {
   id: string;
@@ -23,7 +23,7 @@ export interface Grade {
 }
 
 export interface SubjectGrade {
-  id:string;
+  id: string;
   subject: string;
   average: number;
   icon: LucideIcon;
@@ -59,4 +59,28 @@ export interface Announcement {
   type: 'announcement';
 }
 
-export type DetailItem = Lesson | SubjectGrade | Announcement;
+export interface MessageFile {
+  name: string;
+  path: string;
+}
+
+export interface Message {
+  id: string;
+  title: string;
+  content: string;
+  html?: string;
+  user: string; // sender
+  date: string;
+  read: boolean;
+  folderId: string;
+  files: MessageFile[];
+  type: 'message';
+}
+
+export interface MessageFolder {
+  id: string;
+  name: string;
+  count: number;
+}
+
+export type DetailItem = Lesson | SubjectGrade | Announcement | Message;

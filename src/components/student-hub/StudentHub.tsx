@@ -14,6 +14,7 @@ import { GradesView } from '@/components/student-hub/views/GradesView';
 import { AbsencesView } from '@/components/student-hub/views/AbsencesView';
 import { ExamsView } from '@/components/student-hub/views/ExamsView';
 import { AnnouncementsView } from '@/components/student-hub/views/AnnouncementsView';
+import { MessagesView } from '@/components/student-hub/views/MessagesView';
 import { SettingsView } from '@/components/student-hub/views/SettingsView';
 
 
@@ -28,7 +29,7 @@ export function StudentHub() {
   };
 
   const renderView = () => {
-    switch(activeView) {
+    switch (activeView) {
       case 'Home':
         return <HomeView onOpenSheet={handleOpenSheet} />;
       case 'Timetable':
@@ -41,6 +42,8 @@ export function StudentHub() {
         return <ExamsView />;
       case 'Announcements':
         return <AnnouncementsView onOpenSheet={handleOpenSheet} />;
+      case 'Messages':
+        return <MessagesView onOpenSheet={handleOpenSheet} />;
       case 'Settings':
         return <SettingsView />;
       default:
@@ -53,7 +56,7 @@ export function StudentHub() {
       <Header activeView={activeView} onNavigate={setActiveView} />
       <main className="flex-1 overflow-y-auto pb-24">
         <div className="container mx-auto max-w-4xl pt-6">
-         {renderView()}
+          {renderView()}
         </div>
       </main>
       <BottomNav activeView={activeView} onNavigate={setActiveView} />

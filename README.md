@@ -12,6 +12,7 @@
 - ✅ Attendance
 - 📋 Homework
 - 🏷️ Announcements
+- 💬 Messages
 
 ## 🖥️ Live Demo
 
@@ -27,7 +28,7 @@
 | **React / React DOM** | UI library | 18.3.1 |
 | **TypeScript** | Type Safety | ^5 |
 | **Tailwind CSS** | Styling | 3.4.1 |
-| **librus-api** | Librus Synergia client | 2.1.0 |
+| **librus-api** | Librus Synergia client | 2.14.0 |
 | **lucide-react** | Icons | 0.475.0 |
 | **recharts** | Charts | 2.15.1 |
 | **zod** | Validation | 3.24.2 |
