@@ -4,22 +4,22 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC)](https://tailwindcss.com/)
 
-> ⚠️ This project is still in development and has not been extensively tested due to limited access to real-world data. If you encounter any issues, please open an issue on GitHub.
+> ⚠️ This project is still in development and has not been extensively tested due to limited access to real-world data. If you encounter any issues, please open an issue.
 
 ### 🌟 **Features**
-- 📅 Timetables
-- 📝 Grades 
-- ✅ Attendance
-- 📋 Homework
-- 🏷️ Announcements
+- Timetables
+- Grades 
+- Attendance
+- Homework
+- Announcements
 
-## 🖥️ Live Demo
+## Live Demo
 
 **🔗 [Visit betterlibrus.vercel.app](https://betterlibrus.vercel.app/)**
 **🌲 To install on Android, [visit this link](https://relibrus.vercel.app/) and select "Install" when prompted**
 
 
-## 🛠️ Tech Stack (selected)
+## Tech Stack
 
 | Technology | Purpose | Version |
 |------------|---------|---------|
@@ -32,18 +32,11 @@
 | **recharts** | Charts | 2.15.1 |
 | **zod** | Validation | 3.24.2 |
 
-### Selected devDependencies
-| Package | Purpose | Version |
-|---------|---------|---------|
-| **tailwindcss** | CSS framework | 3.4.1 |
-| **postcss** | CSS tooling | ^8 |
-| **typescript** | Types | ^5 |
-
-## ⚡ Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 16.x or later  
-- npm or yarn  
+- npm, bun or yarn 
 
 ### Installation
 1. **Clone the repository**
@@ -59,7 +52,7 @@
    yarn install
    ```
 
-3. **Start development server**
+3. **Start dev server**
    ```bash
    npm run dev
    # or
@@ -69,7 +62,7 @@
 4. **Open your browser**  
    Navigate to [http://localhost:9002](http://localhost:9002) (default dev server port)
 
-## 📁 Project Structure
+## Project Structure
 ```
 betterlibrus/
 ├── src/
@@ -82,7 +75,7 @@ betterlibrus/
 └── README.md
 ```
 
-## 🚀 Available Scripts
+## Available Scripts
 
 | Command | Description |
 |---------|-------------|
@@ -92,7 +85,7 @@ betterlibrus/
 | `npm run lint` | Run ESLint |
 | `npm run type-check` | Run TypeScript compiler |
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
@@ -102,13 +95,13 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 4. Push to the branch (`git push origin feature/AmazingFeature`)  
 5. Open a Pull Request  
 
-## 📄 License
+## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ⭐ Show your support
+## Show your support
 Give a ⭐️ if this project helped you!
 
-## 📞 Contact
+## Contact
 - **Telegram**: [@astredic](https://astredic.t.me/)  
 - **Issues**: [GitHub Issues](https://github.com/0xhkamori/betterlibrus/issues)  
 
