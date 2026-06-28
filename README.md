@@ -1,6 +1,6 @@
 # betterlibrus 📚
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.9-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5+-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.1-38B2AC)](https://tailwindcss.com/)
 
@@ -23,7 +23,7 @@
 
 | Technology | Purpose | Version |
 |------------|---------|---------|
-| **Next.js** | React Framework | 15.3.3 |
+| **Next.js** | React Framework | 15.5.9 |
 | **React / React DOM** | UI library | 18.3.1 |
 | **TypeScript** | Type Safety | ^5 |
 | **Tailwind CSS** | Styling | 3.4.1 |

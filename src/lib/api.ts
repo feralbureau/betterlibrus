@@ -48,7 +48,6 @@ export async function getTimetable(): Promise<Lesson[]> {
     // The API returns an object with days as keys, so we need to flatten and map it.
     const lessons: Lesson[] = Object.entries(apiData).flatMap(([day, dayLessons]) => {
         const dayNumber = parseInt(day.replace('d', ''), 10);
-        const lessonsArray = Array.isArray(dayLessons) ? dayLessons : [];
         
         if (!Array.isArray(dayLessons)) {
             return [];
