@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Section } from '@/components/student-hub/Section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+
 import { Skeleton } from '@/components/ui/skeleton';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Switch } from '@/components/ui/switch';
@@ -60,15 +60,7 @@ export function SettingsView() {
   useEffect(() => {
     const loadProfile = async () => {
       try {
-        console.log('🔄 Loading user profile...');
         const userData = await getUser();
-        console.log('✅ Raw user data received:', JSON.stringify(userData, null, 2));
-        console.log('📊 User data structure analysis:');
-        console.log('- userData type:', typeof userData);
-        console.log('- userData keys:', Object.keys(userData || {}));
-        console.log('- userData.user type:', typeof userData?.user);
-        console.log('- userData.user keys:', Object.keys(userData?.user || {}));
-        console.log('- userData.success:', userData?.success);
 
         // Transform the real API data into our profile format
         const profileData: UserProfile = {
@@ -83,15 +75,9 @@ export function SettingsView() {
           status: (userData.success ? 'Active' : 'Inactive') as 'Active' | 'Inactive'
         };
 
-        console.log('🔄 Transformed profile data:', JSON.stringify(profileData, null, 2));
         setProfile(profileData);
       } catch (error: any) {
-        console.error('🔥 Failed to load profile:', error);
-        console.error('📋 Error details:', {
-          message: error?.message || 'Unknown error',
-          stack: error?.stack || 'No stack trace',
-          name: error?.name || 'Unknown error type'
-        });
+        console.error('Failed to load profile:', error);
         
         // Fallback data if API fails
         const fallbackProfile: UserProfile = {
@@ -104,7 +90,6 @@ export function SettingsView() {
           enrollmentDate: '2024-09-01',
           status: 'Active' as 'Active'
         };
-        console.log('⚠️ Using fallback profile data:', JSON.stringify(fallbackProfile, null, 2));
         setProfile(fallbackProfile);
       } finally {
         setIsLoading(false);

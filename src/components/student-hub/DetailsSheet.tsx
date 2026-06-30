@@ -9,7 +9,7 @@ import {
   SheetDescription,
 } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '../ui/scroll-area';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 

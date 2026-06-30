@@ -1,4 +1,4 @@
-import type { Lesson, SubjectGrade, Absence, Exam, Announcement, Day } from '@/lib/types';
+import type { Lesson, SubjectGrade, Absence, Exam, Announcement } from '@/lib/types';
 import { BookOpen, Calculator, FlaskConical, Globe, Palette, Languages } from 'lucide-react';
 
 export const timetable: Lesson[] = [
