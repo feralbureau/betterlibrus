@@ -400,7 +400,7 @@ const translations: Record<Language, Record<string, string>> = {
     'absences.noAbsences': 'Пропусків не зареєстровано',
     'absences.noRecords': 'Пропусків не зареєстровано.',
     'absences.excused': 'Поважний',
-    'absences.unexcused': 'Неpoважний',
+    'absences.unexcused': 'Неповажний',
     'absences.pending': 'В очікуванні',
     'absences.reason': 'Причина',
     'absences.teacher': 'Вчитель',
