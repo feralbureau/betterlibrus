@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getSubjectColor } from '@/lib/utils';
 
 function getInitialDay(): Day {
     const day = new Date().getDay();
@@ -82,9 +83,10 @@ export function Timetable({ lessons, onLessonClick, initialDay }: TimetableProps
           filteredLessons.map(lesson => (
             <Card
               key={lesson.id}
-              className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md"
+              className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md overflow-hidden"
               onClick={() => onLessonClick(lesson)}
             >
+              <div className={`h-1 w-full ${getSubjectColor(lesson.subject).accent}`} />
               <CardContent className="p-4 flex justify-between items-center">
                 <div>
                   <p className="font-bold">{lesson.subject}</p>

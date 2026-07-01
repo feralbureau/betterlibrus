@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getSubjectColor } from '@/lib/utils';
 
 
 interface HomeViewProps {
@@ -138,9 +139,10 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                 <div className="px-4 md:px-0">
                 {nextLesson ? (
                      <Card
-                        className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md"
+                        className="cursor-pointer transition-all hover:bg-card/80 hover:shadow-md overflow-hidden relative"
                         onClick={() => onOpenSheet(nextLesson)}
                       >
+                        <div className={`h-1 w-full ${getSubjectColor(nextLesson.subject).accent}`} />
                         <CardContent className="p-4 flex justify-between items-center">
                           <div>
                             <p className="font-bold">{nextLesson.subject}</p>
@@ -174,11 +176,12 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                             <Card
                                 key={lesson.id}
                                 className={cn(
-                                    "cursor-pointer transition-all hover:bg-card/80 hover:shadow-md",
+                                    "cursor-pointer transition-all hover:bg-card/80 hover:shadow-md overflow-hidden relative",
                                     currentLesson?.id === lesson.id && "border-primary bg-primary/10"
                                 )}
                                 onClick={() => onOpenSheet(lesson)}
                             >
+                                <div className={`h-1 w-full ${getSubjectColor(lesson.subject).accent}`} />
                                 <CardContent className="p-4 flex justify-between items-center">
                                 <div>
                                     <p className="font-bold">{lesson.subject}</p>
