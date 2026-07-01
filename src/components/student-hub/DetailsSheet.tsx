@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getGradeColorClasses } from '@/lib/utils';
 
 interface DetailsSheetProps {
   item: DetailItem | null;
@@ -61,15 +62,18 @@ function GradeDetails({ item }: { item: SubjectGrade }) {
         <p className="font-medium mb-2">{t('grades.gradeHistory')}</p>
         <ScrollArea className="flex-grow">
           <div className="space-y-3 pr-4">
-            {item.grades.map((grade: Grade) => (
-              <div key={grade.id} className="flex justify-between items-center rounded-lg border p-3">
-                <div>
-                  <p className="font-medium">{grade.assignment}</p>
-                  <p className="text-xs text-muted-foreground">{grade.date}</p>
+            {item.grades.map((grade: Grade) => {
+              const colors = getGradeColorClasses(grade.score, grade.maxScore);
+              return (
+                <div key={grade.id} className={`flex justify-between items-center rounded-lg border p-3 ${colors.bg}`}>
+                  <div>
+                    <p className="font-medium">{grade.assignment}</p>
+                    <p className="text-xs text-muted-foreground">{grade.date}</p>
+                  </div>
+                  <p className={`font-bold ${colors.text}`}>{`${grade.score} / ${grade.maxScore}`}</p>
                 </div>
-                <p className="font-bold">{`${grade.score} / ${grade.maxScore}`}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </ScrollArea>
       </div>
