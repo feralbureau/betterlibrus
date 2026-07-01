@@ -22,8 +22,8 @@ export default function SignupPage() {
     const handleSignup = (e: React.FormEvent) => {
         e.preventDefault();
         // In a real app, you'd have registration logic here.
-        // For now, we'll just log the user in.
-        login(email);
+        // For now, we'll just log the user in using their credentials.
+        login(email, password);
     }
 
   return (
