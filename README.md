@@ -41,7 +41,7 @@
 ### Installation
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/0xhkamori/betterlibrus.git
+   git clone https://github.com/feralbureau/betterlibrus.git
    cd betterlibrus
    ```
 
@@ -83,7 +83,7 @@ betterlibrus/
 | `npm run build` | Build for production |
 | `npm run start` | Start production server |
 | `npm run lint` | Run ESLint |
-| `npm run type-check` | Run TypeScript compiler |
+| `npm run typecheck` | Run TypeScript compiler |
 
 ## Contributing
 
