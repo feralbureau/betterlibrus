@@ -103,7 +103,7 @@ Give a ⭐️ if this project helped you!
 
 ## Contact
 - **Telegram**: [@astredic](https://astredic.t.me/)  
-- **Issues**: [GitHub Issues](https://github.com/0xhkamori/betterlibrus/issues)  
+- **Issues**: [GitHub Issues](https://github.com/feralbureau/betterlibrus/issues)  
 
 ---
 **❤️ Made for the student community**
