@@ -23,6 +23,12 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.exams': 'Exams',
     'nav.announcements': 'Announcements',
     'nav.settings': 'Settings',
+    'nav.homeShort': 'Home',
+    'nav.timetableShort': 'Plan',
+    'nav.gradesShort': 'Grades',
+    'nav.absencesShort': 'Absences',
+    'nav.examsShort': 'Exams',
+    'nav.announcementsShort': 'News',
     
     // Home page
     'home.nextLesson': 'Next Lesson',
@@ -130,6 +136,12 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.exams': 'Egzaminy',
     'nav.announcements': 'Ogłoszenia',
     'nav.settings': 'Ustawienia',
+    'nav.homeShort': 'Dom',
+    'nav.timetableShort': 'Plan',
+    'nav.gradesShort': 'Oceny',
+    'nav.absencesShort': 'Nieob.',
+    'nav.examsShort': 'Egz.',
+    'nav.announcementsShort': 'Ogłosz.',
     
     // Home page
     'home.nextLesson': 'Następna lekcja',
@@ -237,6 +249,12 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.exams': 'Экзамены',
     'nav.announcements': 'Объявления',
     'nav.settings': 'Настройки',
+    'nav.homeShort': 'Главная',
+    'nav.timetableShort': 'Распис.',
+    'nav.gradesShort': 'Оценки',
+    'nav.absencesShort': 'Проп.',
+    'nav.examsShort': 'Экз.',
+    'nav.announcementsShort': 'Объявл.',
     
     // Home page
     'home.nextLesson': 'Следующий урок',
@@ -344,6 +362,12 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.exams': 'Іспити',
     'nav.announcements': 'Оголошення',
     'nav.settings': 'Налаштування',
+    'nav.homeShort': 'Головна',
+    'nav.timetableShort': 'Розклад',
+    'nav.gradesShort': 'Оцінки',
+    'nav.absencesShort': 'Проп.',
+    'nav.examsShort': 'Ісп.',
+    'nav.announcementsShort': 'Оголош.',
     
     // Home page
     'home.nextLesson': 'Наступний урок',
