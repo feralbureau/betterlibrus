@@ -133,8 +133,50 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
         return nowInMinutes >= startTime && nowInMinutes <= endTime;
     });
 
+    const totalGradeCount = grades.reduce((sum, subject) => sum + (subject.grades?.length || 0), 0);
+    const subjectAverages = grades.map(s => s.average).filter(a => a > 0);
+    const overallAverage = subjectAverages.length > 0
+        ? subjectAverages.reduce((a, b) => a + b, 0) / subjectAverages.length
+        : null;
+
     return (
         <div className="space-y-8">
+            {/* Quick Stats */}
+            <Section title="">
+                <div className="px-4 md:px-0">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <Card className="bg-card/70">
+                            <CardContent className="p-4 text-center">
+                                <p className="text-2xl font-bold text-primary">{todaysLessons.length}</p>
+                                <p className="text-xs text-muted-foreground mt-1">{t('home.todaysLessons')}</p>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-card/70">
+                            <CardContent className="p-4 text-center">
+                                <p className="text-2xl font-bold text-primary">{totalGradeCount}</p>
+                                <p className="text-xs text-muted-foreground mt-1">{t('home.newGrades')}</p>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-card/70">
+                            <CardContent className="p-4 text-center">
+                                <p className="text-2xl font-bold text-primary">
+                                    {overallAverage !== null ? overallAverage.toFixed(1) : '-'}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1">{t('home.overallAverage')}</p>
+                            </CardContent>
+                        </Card>
+                        <Card className="bg-card/70">
+                            <CardContent className="p-4 text-center">
+                                <p className="text-2xl font-bold text-primary">
+                                    {currentLesson ? t('home.inProgress') : (nextLesson ? nextLesson.time.split(' - ')[0] : '-')}
+                                </p>
+                                <p className="text-xs text-muted-foreground mt-1">{currentLesson ? currentLesson.subject : t('home.nextClass')}</p>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            </Section>
+
             <Section title={t('home.nextLesson')}>
                 <div className="px-4 md:px-0">
                 {nextLesson ? (

@@ -34,6 +34,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextLesson': 'Next Lesson',
     'home.todaysLessons': "Today's Lessons",
     'home.newGrades': 'New Grades',
+    'home.overallAverage': 'Overall Average',
+    'home.inProgress': 'Now!',
+    'home.nextClass': 'Next Class',
     'home.noLessonsToday': 'No lessons scheduled for today',
     'home.noNewGrades': 'No new grades',
     
@@ -160,6 +163,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextLesson': 'Następna lekcja',
     'home.todaysLessons': 'Dzisiejsze lekcje',
     'home.newGrades': 'Nowe oceny',
+    'home.overallAverage': 'Średnia ogólna',
+    'home.inProgress': 'Teraz!',
+    'home.nextClass': 'Następna',
     'home.noLessonsToday': 'Brak lekcji na dziś',
     'home.noNewGrades': 'Brak nowych ocen',
     
@@ -286,6 +292,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextLesson': 'Следующий урок',
     'home.todaysLessons': 'Сегодняшние уроки',
     'home.newGrades': 'Новые оценки',
+    'home.overallAverage': 'Средний балл',
+    'home.inProgress': 'Сейчас!',
+    'home.nextClass': 'Следующий',
     'home.noLessonsToday': 'На сегодня уроков нет',
     'home.noNewGrades': 'Новых оценок нет',
     
@@ -412,6 +421,9 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextLesson': 'Наступний урок',
     'home.todaysLessons': 'Сьогоднішні уроки',
     'home.newGrades': 'Нові оцінки',
+    'home.overallAverage': 'Середній бал',
+    'home.inProgress': 'Зараз!',
+    'home.nextClass': 'Наступний',
     'home.noLessonsToday': 'На сьогодні уроків немає',
     'home.noNewGrades': 'Нових оцінок немає',
     
