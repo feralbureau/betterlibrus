@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const { login, user, isLoading } = useAuth();
@@ -40,7 +40,7 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoggingIn(true);
     try {
-      await login(email, password);
+      await login(username, password);
     } catch (error) {
       // Error is caught and toast is shown in useAuth.
       // We just need to ensure the loader stops.
@@ -67,8 +67,8 @@ export default function LoginPage() {
             <form onSubmit={handleLogin}>
                 <CardContent className="grid gap-4">
                 <div className="grid gap-2">
-                    <Label htmlFor="email">Login</Label>
-                    <Input id="email" type="text" placeholder="Your Librus Login" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={isLoggingIn} />
+                    <Label htmlFor="username">Login</Label>
+                    <Input id="username" type="text" placeholder="Your Librus Login" required value={username} onChange={(e) => setUsername(e.target.value)} disabled={isLoggingIn} />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
