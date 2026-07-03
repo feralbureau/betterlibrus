@@ -125,8 +125,21 @@ const translations: Record<Language, Record<string, string>> = {
     'logout.confirmTitle': 'Are you sure?',
     'logout.confirmText': 'Logout from your account? You will need to enter your credentials again to access the app.',
     'logout.button': 'Logout',
+
+    // Section titles
+    'section.weeklyTimetable': 'Weekly Timetable',
+    'section.examSchedule': 'Exam Schedule',
+    'section.absenceRecord': 'Absence Record',
+    'section.announcements': 'School Announcements',
+    'section.averages': 'Averages',
+    'section.gradesBySubject': 'Grades by Subject',
+    'section.semester1': '1st Semester',
+    'section.semester2': '2nd Semester',
+    'section.fullYearAverage': 'Full Year Average',
+    'section.profile': 'Profile',
+    'section.preferences': 'Preferences',
   },
-  
+
   pl: {
     // Navigation
     'nav.home': 'Dom',
@@ -238,8 +251,21 @@ const translations: Record<Language, Record<string, string>> = {
     'logout.confirmTitle': 'Czy na pewno chcesz się wylogować ze swojego konta?',
     'logout.confirmText': 'Wyloguj się ze swojego konta? Będziesz musiał ponownie wprowadzić swoje dane logowania, aby uzyskać dostęp do aplikacji.',
     'logout.button': 'Wyloguj',
+
+    // Section titles
+    'section.weeklyTimetable': 'Tygodniowy plan lekcji',
+    'section.examSchedule': 'Terminarz egzaminów',
+    'section.absenceRecord': 'Rejestr nieobecności',
+    'section.announcements': 'Ogłoszenia szkolne',
+    'section.averages': 'Średnie',
+    'section.gradesBySubject': 'Oceny według przedmiotów',
+    'section.semester1': 'I semestr',
+    'section.semester2': 'II semestr',
+    'section.fullYearAverage': 'Średnia roczna',
+    'section.profile': 'Profil',
+    'section.preferences': 'Preferencje',
   },
-  
+
   ru: {
     // Navigation
     'nav.home': 'Главная',
@@ -351,8 +377,21 @@ const translations: Record<Language, Record<string, string>> = {
     'logout.confirmTitle': 'Вы уверены?',
     'logout.confirmText': 'Выйти из своего аккаунта? Вам потребуется снова ввести свои учетные данные для доступа к приложению.',
     'logout.button': 'Выйти',
+
+    // Section titles
+    'section.weeklyTimetable': 'Еженедельное расписание',
+    'section.examSchedule': 'Расписание экзаменов',
+    'section.absenceRecord': 'Запись пропусков',
+    'section.announcements': 'Школьные объявления',
+    'section.averages': 'Средние баллы',
+    'section.gradesBySubject': 'Оценки по предметам',
+    'section.semester1': '1 семестр',
+    'section.semester2': '2 семестр',
+    'section.fullYearAverage': 'Средний годовой',
+    'section.profile': 'Профиль',
+    'section.preferences': 'Предпочтения',
   },
-  
+
   ua: {
     // Navigation
     'nav.home': 'Головна',
@@ -464,6 +503,19 @@ const translations: Record<Language, Record<string, string>> = {
     'logout.confirmTitle': 'Вихід',
     'logout.confirmText': 'Ви дійсно хочете вийти зі свого облікового запису? Вам потрібно буде знову ввести свої облікові дані для доступу до додатку.',
     'logout.button': 'Вийти',
+
+    // Section titles
+    'section.weeklyTimetable': 'Тижневий розклад',
+    'section.examSchedule': 'Розклад іспитів',
+    'section.absenceRecord': 'Запис пропусків',
+    'section.announcements': 'Шкільні оголошення',
+    'section.averages': 'Середні бали',
+    'section.gradesBySubject': 'Оцінки з предметів',
+    'section.semester1': '1 семестр',
+    'section.semester2': '2 семестр',
+    'section.fullYearAverage': 'Середній річний',
+    'section.profile': 'Профіль',
+    'section.preferences': 'Уподобання',
   },
 };
 

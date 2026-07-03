@@ -7,6 +7,7 @@ import { Timetable } from '@/components/student-hub/Timetable';
 import { getTimetable } from '@/lib/api';
 import type { DetailItem, Day, Lesson } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TimetableViewProps {
     onOpenSheet: (item: DetailItem) => void;
@@ -24,6 +25,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [initialDay, setInitialDay] = useState<Day | null>(null);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -42,7 +44,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
 
     if (isLoading || !initialDay) {
         return (
-            <Section title="Weekly Timetable">
+            <Section title={t('section.weeklyTimetable')}>
                 <div className="w-full space-y-4">
                     <div className="flex items-center gap-2 px-4 md:px-0">
                         <Skeleton className="h-12 flex-grow rounded-lg" />
@@ -67,7 +69,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
     }
 
     return (
-        <Section title="Weekly Timetable">
+        <Section title={t('section.weeklyTimetable')}>
             <Timetable lessons={lessons} onLessonClick={onOpenSheet} initialDay={initialDay} />
         </Section>
     );

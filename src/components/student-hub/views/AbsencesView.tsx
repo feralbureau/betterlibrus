@@ -6,10 +6,12 @@ import { Absences } from '@/components/student-hub/Absences';
 import { getAbsences } from '@/lib/api';
 import type { Absence } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function AbsencesView() {
     const [isLoading, setIsLoading] = useState(true);
     const [absences, setAbsences] = useState<Absence[]>([]);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -27,7 +29,7 @@ export function AbsencesView() {
 
     if (isLoading) {
         return (
-            <Section title="Absence Record">
+            <Section title={t('section.absenceRecord')}>
                  <div className="px-4 md:px-0 space-y-3">
                     {[...Array(3)].map((_, i) => (
                         <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
@@ -56,7 +58,7 @@ export function AbsencesView() {
     }
 
     return (
-        <Section title="Absence Record">
+        <Section title={t('section.absenceRecord')}>
             <Absences absences={absences} />
         </Section>
     );

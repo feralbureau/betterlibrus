@@ -6,10 +6,12 @@ import { Exams } from '@/components/student-hub/Exams';
 import { getExams } from '@/lib/api';
 import type { Exam } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function ExamsView() {
     const [isLoading, setIsLoading] = useState(true);
     const [exams, setExams] = useState<Exam[]>([]);
+    const { t } = useLanguage();
 
     useEffect(() => {
         async function loadData() {
@@ -27,7 +29,7 @@ export function ExamsView() {
 
     if (isLoading) {
         return (
-            <Section title="Exam Schedule">
+            <Section title={t('section.examSchedule')}>
                 <div className="px-4 md:px-0 space-y-3">
                     {[...Array(3)].map((_, i) => (
                          <div key={i} className="p-4 space-y-2 rounded-lg border bg-card text-card-foreground">
@@ -59,7 +61,7 @@ export function ExamsView() {
     }
 
     return (
-        <Section title="Exam Schedule">
+        <Section title={t('section.examSchedule')}>
             <Exams exams={exams} />
         </Section>
     );

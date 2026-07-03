@@ -103,7 +103,7 @@ export function SettingsView() {
     return (
       <div className="space-y-8">
         {/* Profile Section Loading */}
-        <Section title="Profile">
+        <Section title={t('section.profile')}>
           <div className="px-4 md:px-0">
             <Card>
               <CardHeader className="pb-4">
@@ -133,7 +133,7 @@ export function SettingsView() {
         </Section>
 
         {/* Preferences Loading */}
-        <Section title="Preferences">
+        <Section title={t('section.preferences')}>
           <div className="px-4 md:px-0 space-y-3">
             {[...Array(2)].map((_, i) => (
               <Card key={i} className="cursor-pointer">
@@ -155,7 +155,7 @@ export function SettingsView() {
   return (
     <div className="space-y-8">
       {/* Profile Section */}
-      <Section title="Profile">
+      <Section title={t('section.profile')}>
         <div className="px-4 md:px-0">
           <Card>
             <CardHeader className="pb-4">
@@ -239,7 +239,7 @@ export function SettingsView() {
       </Section>
 
       {/* Preferences */}
-      <Section title="Preferences">
+      <Section title={t('section.preferences')}>
         <div className="px-4 md:px-0 space-y-3">
           <Sheet>
             <SheetTrigger asChild>
