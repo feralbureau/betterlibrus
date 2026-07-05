@@ -12,26 +12,23 @@ export default async function handler(
     }
 
     const accountInfo = await client.info.getAccountInfo();
-    console.log('📊 Full account info received:', JSON.stringify(accountInfo, null, 2));
 
     let userInfo: any = {};
     try {
       if (client.info.getUser && typeof client.info.getUser === 'function') {
         userInfo = await client.info.getUser();
-        console.log('👤 User info received:', JSON.stringify(userInfo, null, 2));
       }
     } catch (userError: any) {
-      console.log('⚠️ Could not get user info:', userError?.message || 'Unknown error');
+      // user info is optional
     }
 
     let studentInfo: any = {};
     try {
       if (client.info.getStudentInfo && typeof client.info.getStudentInfo === 'function') {
         studentInfo = await client.info.getStudentInfo();
-        console.log('🎓 Student info received:', JSON.stringify(studentInfo, null, 2));
       }
     } catch (studentError: any) {
-      console.log('⚠️ Could not get student info:', studentError?.message || 'Unknown error');
+      // student info is optional
     }
 
     const accountData = accountInfo as any;
@@ -58,8 +55,6 @@ export default async function handler(
       combinedUserData.firstName = nameParts[0];
       combinedUserData.lastName = nameParts.slice(1).join(' ');
     }
-
-    console.log('✨ Final combined user data:', JSON.stringify(combinedUserData, null, 2));
 
     return res.status(200).json({ 
       success: true, 
