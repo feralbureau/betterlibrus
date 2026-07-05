@@ -38,26 +38,24 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
     // Calculate real averages from grades data
     const calculateAverages = (grades: SubjectGrade[]) => {
         if (!grades || grades.length === 0) {
-            return { semester1: 0, semester2: 0, fullYear: 0 };
+            return { semester1: null, semester2: null, fullYear: null };
         }
 
         // For now, we'll use the average from each subject since we don't have semester info
-        // This assumes the API provides subject averages
         const subjectAverages = grades
             .map(subject => subject.average)
             .filter(avg => avg > 0);
 
         if (subjectAverages.length === 0) {
-            return { semester1: 0, semester2: 0, fullYear: 0 };
+            return { semester1: null, semester2: null, fullYear: null };
         }
 
         const overallAverage = subjectAverages.reduce((sum, avg) => sum + avg, 0) / subjectAverages.length;
         
-        // Since we don't have semester breakdown, we'll show the same for both
-        // In a real implementation, you'd need semester-specific data from the API
+        // Semester 2 data is not available yet — show null instead of misleading 0
         return {
             semester1: overallAverage,
-            semester2: 0, // Set to 0 since we're in the first semester (September)
+            semester2: null,
             fullYear: overallAverage
         };
     };
@@ -66,6 +64,8 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
     const semester1Avg = averages.semester1;
     const semester2Avg = averages.semester2;
     const fullYearAvg = averages.fullYear;
+
+    const formatAvg = (avg: number | null) => avg != null && avg > 0 ? avg.toFixed(1) : '-';
 
     if (isLoading) {
         return (
@@ -132,7 +132,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                             <CardTitle className="text-sm font-medium">{t('section.semester1')}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                             <div className="text-2xl font-bold">{semester1Avg > 0 ? semester1Avg.toFixed(1) : '-'}</div>
+                             <div className="text-2xl font-bold">{formatAvg(semester1Avg)}</div>
                         </CardContent>
                     </Card>
                      <Card>
@@ -140,7 +140,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                             <CardTitle className="text-sm font-medium">{t('section.semester2')}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                             <div className="text-2xl font-bold">{semester2Avg > 0 ? semester2Avg.toFixed(1) : '-'}</div>
+                             <div className="text-2xl font-bold">{formatAvg(semester2Avg)}</div>
                         </CardContent>
                     </Card>
                 </div>
@@ -150,7 +150,7 @@ export function GradesView({ onOpenSheet }: GradesViewProps) {
                             <CardTitle className="text-sm font-medium">{t('section.fullYearAverage')}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <div className="text-3xl font-bold">{fullYearAvg > 0 ? fullYearAvg.toFixed(1) : '-'}</div>
+                            <div className="text-3xl font-bold">{formatAvg(fullYearAvg)}</div>
                         </CardContent>
                     </Card>
                 </div>
