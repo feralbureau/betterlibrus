@@ -130,6 +130,12 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
         ? subjectAverages.reduce((a, b) => a + b, 0) / subjectAverages.length
         : null;
 
+    const averageColor = overallAverage !== null
+        ? overallAverage >= 80 ? 'text-green-500'
+          : overallAverage >= 60 ? 'text-amber-500'
+          : 'text-red-500'
+        : 'text-primary';
+
     return (
         <div className="space-y-8">
             {/* Quick Stats */}
@@ -150,7 +156,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </Card>
                         <Card className="bg-card/70">
                             <CardContent className="p-4 text-center">
-                                <p className="text-2xl font-bold text-primary">
+                                <p className={`text-2xl font-bold ${averageColor}`}>
                                     {overallAverage !== null ? overallAverage.toFixed(1) : '-'}
                                 </p>
                                 <p className="text-xs text-muted-foreground mt-1">{t('home.overallAverage')}</p>
