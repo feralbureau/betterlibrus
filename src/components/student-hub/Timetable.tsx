@@ -6,14 +6,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getSubjectColor } from '@/lib/utils';
+import { getCurrentDay, getSubjectColor } from '@/lib/utils';
 
 function getInitialDay(): Day {
-    const day = new Date().getDay();
-    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
-    const today = daysOfWeek[day];
-    if (today === 'SAT' || today === 'SUN') return 'MON';
-    return today as Day;
+    return getCurrentDay();
 }
 
 interface TimetableProps {

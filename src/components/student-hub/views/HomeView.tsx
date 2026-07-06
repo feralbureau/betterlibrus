@@ -6,23 +6,14 @@ import { Section } from '@/components/student-hub/Section';
 import { getTimetable, getGrades } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
 import { NewGradesList } from '@/components/student-hub/NewGradesList';
-import { cn } from '@/lib/utils';
+import { cn, getCurrentDay, getSubjectColor } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getSubjectColor } from '@/lib/utils';
 
 
 interface HomeViewProps {
     onOpenSheet: (item: DetailItem) => void;
-}
-
-function getDayOfWeek(date: Date): 'MON' | 'TUE' | 'WED' | 'THU' | 'FRI' {
-    const day = date.getDay();
-    const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
-    const today = days[day];
-    if (today === 'SAT' || today === 'SUN') return 'MON'; // Default to Monday on weekends
-    return today;
 }
 
 export function HomeView({ onOpenSheet }: HomeViewProps) {
@@ -113,7 +104,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
         );
     }
 
-    const todayKey = getDayOfWeek(currentTime);
+    const todayKey = getCurrentDay();
     const todaysLessons = lessons.filter(lesson => lesson.day === todayKey).sort((a,b) => a.time.localeCompare(b.time));
 
     const toMinutes = (timeStr: string) => {

@@ -1,8 +1,21 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import type { Day } from './types';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+/**
+ * Returns the current day of week as a Day type (MON-FRI).
+ * Weekends are mapped to Monday.
+ */
+export function getCurrentDay(): Day {
+  const day = new Date().getDay();
+  const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
+  const today = daysOfWeek[day];
+  if (today === 'SAT' || today === 'SUN') return 'MON';
+  return today as Day;
 }
 
 /**

@@ -8,17 +8,10 @@ import { getTimetable } from '@/lib/api';
 import type { DetailItem, Day, Lesson } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { getCurrentDay } from '@/lib/utils';
 
 interface TimetableViewProps {
     onOpenSheet: (item: DetailItem) => void;
-}
-
-function getToday(): Day {
-    const day = new Date().getDay();
-    const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'] as const;
-    const today = daysOfWeek[day];
-    if (today === 'SAT' || today === 'SUN') return 'MON';
-    return today as Day;
 }
 
 export function TimetableView({ onOpenSheet }: TimetableViewProps) {
@@ -32,7 +25,7 @@ export function TimetableView({ onOpenSheet }: TimetableViewProps) {
             try {
                 const data = await getTimetable();
                 setLessons(data);
-                setInitialDay(getToday());
+                setInitialDay(getCurrentDay());
             } catch (error) {
                 console.error("Failed to fetch timetable", error);
             } finally {
