@@ -85,7 +85,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </div>
                     </div>
                 </Section>
-                <Section title="Today">
+                <Section title={t('home.today')}>
                      <div className="px-4 md:px-0 space-y-3">
                         {[...Array(3)].map((_, i) => (
                             <div key={i} className="p-4 flex justify-between items-center rounded-lg border bg-card">
@@ -189,7 +189,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                 ) : (
                     <Card className="bg-card/50">
                         <CardContent className="p-8 text-center text-muted-foreground">
-                            <p>No more lessons today.</p>
+                            <p>{t('home.noMoreLessons')}</p>
                         </CardContent>
                     </Card>
                 )}

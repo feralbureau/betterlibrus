@@ -39,6 +39,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextClass': 'Next Class',
     'home.noLessonsToday': 'No lessons scheduled for today',
     'home.noNewGrades': 'No new grades',
+    'home.noMoreLessons': 'No more lessons today.',
+    'home.today': 'Today',
     
     // Profile
     'profile.login': 'Login',
@@ -168,6 +170,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextClass': 'Następna',
     'home.noLessonsToday': 'Brak lekcji na dziś',
     'home.noNewGrades': 'Brak nowych ocen',
+    'home.noMoreLessons': 'Brak więcej lekcji na dziś.',
+    'home.today': 'Dziś',
     
     // Profile
     'profile.login': 'Login',
@@ -297,6 +301,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextClass': 'Следующий',
     'home.noLessonsToday': 'На сегодня уроков нет',
     'home.noNewGrades': 'Новых оценок нет',
+    'home.noMoreLessons': 'На сегодня уроков больше нет.',
+    'home.today': 'Сегодня',
     
     // Profile
     'profile.login': 'Логин',
@@ -426,6 +432,8 @@ const translations: Record<Language, Record<string, string>> = {
     'home.nextClass': 'Наступний',
     'home.noLessonsToday': 'На сьогодні уроків немає',
     'home.noNewGrades': 'Нових оцінок немає',
+    'home.noMoreLessons': 'На сьогодні уроків більше немає.',
+    'home.today': 'Сьогодні',
     
     // Profile
     'profile.login': 'Логін',
