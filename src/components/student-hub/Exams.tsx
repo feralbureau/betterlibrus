@@ -7,8 +7,17 @@ interface ExamsProps {
   exams: Exam[];
 }
 
+// Map app language codes to locale strings for date formatting
+const localeMap: Record<string, string> = {
+  en: 'en-US',
+  pl: 'pl-PL',
+  ru: 'ru-RU',
+  ua: 'uk-UA',
+};
+
 export function Exams({ exams }: ExamsProps) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const locale = localeMap[language] || 'en-US';
   return (
     <div className="px-4 md:px-0 space-y-3">
       {exams.length > 0 ? (
@@ -17,7 +26,7 @@ export function Exams({ exams }: ExamsProps) {
             <CardContent className="p-4 space-y-2">
                <div className="flex items-center gap-4">
                   <div className="flex flex-col items-center justify-center p-3 rounded-md bg-card border w-20">
-                      <span className="text-sm font-medium text-muted-foreground">{new Date(exam.date).toLocaleString('en-US', { month: 'short' }).toUpperCase()}</span>
+                      <span className="text-sm font-medium text-muted-foreground">{new Date(exam.date).toLocaleString(locale, { month: 'short' }).toUpperCase()}</span>
                       <span className="text-3xl font-bold">{new Date(exam.date).getDate()}</span>
                   </div>
                   <div className="flex-grow">

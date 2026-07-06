@@ -9,9 +9,18 @@ interface AbsencesProps {
   absences: Absence[];
 }
 
+// Map app language codes to locale strings for date formatting
+const localeMap: Record<string, string> = {
+  en: 'en-US',
+  pl: 'pl-PL',
+  ru: 'ru-RU',
+  ua: 'uk-UA',
+};
+
 export function Absences({ absences }: AbsencesProps) {
   const { anonymizeName } = usePrivacy();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const locale = localeMap[language] || 'en-US';
   const getStatusInfo = (status: Absence['status']) => {
     switch (status) {
       case 'Excused':
@@ -33,7 +42,7 @@ export function Absences({ absences }: AbsencesProps) {
               <CardContent className="p-4 space-y-2">
                 <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-bold text-base">{new Date(absence.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                      <p className="font-bold text-base">{new Date(absence.date).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                       <p className="text-sm text-muted-foreground">{absence.subject}</p>
                     </div>
                      <Badge variant={statusInfo.variant} className="flex items-center gap-1.5">
