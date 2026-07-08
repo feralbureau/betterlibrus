@@ -13,7 +13,7 @@ import { usePrivacy } from '@/contexts/PrivacyContext';
 import { useLanguage, type Language } from '@/contexts/LanguageContext';
 import { useFont } from '@/contexts/FontContext';
 import { useRoundness } from '@/contexts/RoundnessContext';
-import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, Globe, LogOut } from 'lucide-react';
+import { User, Mail, Phone, MapPin, GraduationCap, Calendar, Settings, Palette, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface UserProfile {
