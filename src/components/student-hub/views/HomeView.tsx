@@ -1,9 +1,9 @@
 
 'use client';
 import { useState, useEffect } from 'react';
-import type { Lesson, DetailItem, Day, SubjectGrade } from '@/lib/types';
+import type { Lesson, DetailItem, Day, SubjectGrade, Exam } from '@/lib/types';
 import { Section } from '@/components/student-hub/Section';
-import { getTimetable, getGrades } from '@/lib/api';
+import { getTimetable, getGrades, getExams } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
 import { NewGradesList } from '@/components/student-hub/NewGradesList';
 import { cn, getCurrentDay, getSubjectColor } from '@/lib/utils';
@@ -20,6 +20,7 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
     const [isLoading, setIsLoading] = useState(true);
     const [lessons, setLessons] = useState<Lesson[]>([]);
     const [grades, setGrades] = useState<SubjectGrade[]>([]);
+    const [exams, setExams] = useState<Exam[]>([]);
     const [currentTime, setCurrentTime] = useState(new Date());
     const { anonymizeName } = usePrivacy();
     const { t } = useLanguage();
@@ -38,12 +39,14 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
     useEffect(() => {
         async function loadData() {
             try {
-                const [timetableData, gradesData] = await Promise.all([
+                const [timetableData, gradesData, examsData] = await Promise.all([
                     getTimetable(),
-                    getGrades()
+                    getGrades(),
+                    getExams()
                 ]);
                 setLessons(timetableData);
                 setGrades(gradesData);
+                setExams(examsData);
             } catch (error) {
                 console.error("Failed to fetch data", error);
             } finally {
@@ -136,6 +139,28 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
           : 'text-red-500'
         : 'text-primary';
 
+    // Find the next upcoming exam
+    const getNextExam = () => {
+        const now = new Date();
+        const upcoming = exams
+            .filter(e => new Date(e.date) >= now)
+            .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        return upcoming.length > 0 ? upcoming[0] : null;
+    };
+
+    const nextExam = getNextExam();
+    const daysUntilExam = nextExam
+        ? Math.ceil((new Date(nextExam.date).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+        : null;
+
+    const examLabel = daysUntilExam === 0
+        ? t('home.examToday')
+        : daysUntilExam === 1
+            ? t('home.examTomorrow')
+            : daysUntilExam !== null
+                ? `${daysUntilExam} ${t('home.examDays')}`
+                : null;
+
     return (
         <div className="space-y-8">
             {/* Quick Stats */}
@@ -164,10 +189,18 @@ export function HomeView({ onOpenSheet }: HomeViewProps) {
                         </Card>
                         <Card className="bg-card/70">
                             <CardContent className="p-4 text-center">
-                                <p className="text-2xl font-bold text-primary">
-                                    {currentLesson ? t('home.inProgress') : (nextLesson ? nextLesson.time.split(' - ')[0] : '-')}
+                                <p className={`text-2xl font-bold ${nextExam ? 'text-primary' : 'text-primary'}`}>
+                                    {currentLesson ? t('home.inProgress') : (nextLesson ? nextLesson.time.split(' - ')[0] : (examLabel || '-'))}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-1">{currentLesson ? currentLesson.subject : t('home.nextClass')}</p>
+                                <p className="text-xs text-muted-foreground mt-1">
+                                    {currentLesson
+                                        ? currentLesson.subject
+                                        : nextLesson
+                                            ? t('home.nextClass')
+                                            : nextExam
+                                                ? nextExam.subject
+                                                : t('home.nextClass')}
+                                </p>
                             </CardContent>
                         </Card>
                     </div>

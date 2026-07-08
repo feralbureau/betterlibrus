@@ -41,7 +41,10 @@ const translations: Record<Language, Record<string, string>> = {
     'home.noNewGrades': 'No new grades',
     'home.noMoreLessons': 'No more lessons today.',
     'home.today': 'Today',
-    
+    'home.examToday': 'Today!',
+    'home.examTomorrow': 'Tomorrow',
+    'home.examDays': 'days',
+
     // Profile
     'profile.login': 'Login',
     'profile.phone': 'Phone',
@@ -172,7 +175,10 @@ const translations: Record<Language, Record<string, string>> = {
     'home.noNewGrades': 'Brak nowych ocen',
     'home.noMoreLessons': 'Brak więcej lekcji na dziś.',
     'home.today': 'Dziś',
-    
+    'home.examToday': 'Dziś!',
+    'home.examTomorrow': 'Jutro',
+    'home.examDays': 'dni',
+
     // Profile
     'profile.login': 'Login',
     'profile.phone': 'Telefon',
@@ -303,7 +309,10 @@ const translations: Record<Language, Record<string, string>> = {
     'home.noNewGrades': 'Новых оценок нет',
     'home.noMoreLessons': 'На сегодня уроков больше нет.',
     'home.today': 'Сегодня',
-    
+    'home.examToday': 'Сегодня!',
+    'home.examTomorrow': 'Завтра',
+    'home.examDays': 'дн.',
+
     // Profile
     'profile.login': 'Логин',
     'profile.phone': 'Телефон',
@@ -434,7 +443,10 @@ const translations: Record<Language, Record<string, string>> = {
     'home.noNewGrades': 'Нових оцінок немає',
     'home.noMoreLessons': 'На сьогодні уроків більше немає.',
     'home.today': 'Сьогодні',
-    
+    'home.examToday': 'Сьогодні!',
+    'home.examTomorrow': 'Завтра',
+    'home.examDays': 'дн.',
+
     // Profile
     'profile.login': 'Логін',
     'profile.phone': 'Телефон',
