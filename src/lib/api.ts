@@ -37,6 +37,13 @@ function mapDay(dayNumber: number): Day {
 }
 
 
+// Module-level counters for stable fallback IDs
+let subjectIdCounter = 0;
+let gradeIdCounter = 0;
+let absenceIdCounter = 0;
+let examIdCounter = 0;
+let announcementIdCounter = 0;
+
 export async function getTimetable(): Promise<Lesson[]> {
     const apiData = await fetchData('/api/timetable');
 
@@ -77,13 +84,13 @@ export async function getGrades(): Promise<SubjectGrade[]> {
     // The API returns an array of subjects, each with an array of grades.
     // We need to map this to our SubjectGrade type.
     return apiData.map((subject: any) => ({
-        id: subject.id || `subject-${Math.random()}`,
+        id: subject.id || `subject-${++subjectIdCounter}`,
         subject: subject.name || 'Unknown Subject',
-        average: subject.average || 0, // Assuming the API provides an average
+        average: subject.average || 0,
         icon: getIconForSubject(subject.name || ''),
         type: 'grade',
         grades: Array.isArray(subject.grades) ? subject.grades.map((grade: any) => ({
-            id: grade.id || `grade-${Math.random()}`,
+            id: grade.id || `grade-${++gradeIdCounter}`,
             assignment: grade.description?.category?.name || grade.category || 'Assignment',
             score: parseFloat((grade.grade || '0').toString().replace(',', '.')), // Handle comma decimal separator
             maxScore: grade.description?.category?.weight || 100, // This might need adjustment based on real data
@@ -102,7 +109,7 @@ export async function getAbsences(): Promise<Absence[]> {
     
     // The API returns an array of absences, which we map to our Absence type.
     return apiData.map((absence: any) => ({
-        id: absence.id || `absence-${Math.random()}`,
+        id: absence.id || `absence-${++absenceIdCounter}`,
         subject: absence.lesson?.subject || 'Unknown Subject',
         teacher: absence.teacher?.name || 'Unknown Teacher',
         date: absence.date ? new Date(absence.date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
@@ -122,7 +129,7 @@ export async function getExams(): Promise<Exam[]> {
     
     // The API returns calendar events, we map them to our Exam type.
     return apiData.map((event: any) => ({
-        id: event.id || `exam-${Math.random()}`,
+        id: event.id || `exam-${++examIdCounter}`,
         subject: event.title || 'Unknown Subject',
         date: event.dateFrom ? new Date(event.dateFrom).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
         time: event.dateFrom ? new Date(event.dateFrom).toTimeString().split(' ')[0].substring(0, 5) : '00:00',
@@ -141,7 +148,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
     
     // The API returns announcements, we map them to our Announcement type.
     return apiData.map((announcement: any) => ({
-        id: announcement.id || `announcement-${Math.random()}`,
+        id: announcement.id || `announcement-${++announcementIdCounter}`,
         title: announcement.title || announcement.subject || announcement.name || 'Untitled',
         content: announcement.content || announcement.body || announcement.text || '', 
         author: announcement.user || announcement.author?.name || announcement.sender?.name || announcement.from || 'Unknown Author',
