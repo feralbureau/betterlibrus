@@ -59,11 +59,6 @@ export default async function handler(
     return res.status(200).json({ 
       success: true, 
       user: combinedUserData,
-      debug: {
-        accountInfo,
-        userInfo,
-        studentInfo
-      }
     });
   } catch (error: any) {
     console.error('🔥 User API error:', error);
