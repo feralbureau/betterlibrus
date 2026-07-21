@@ -21,36 +21,41 @@ export function StudentHub() {
   const [isSheetOpen, setSheetOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DetailItem | null>(null);
   const [activeView, setActiveView] = useState<View>('Home');
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleOpenSheet = (item: DetailItem) => {
     setSelectedItem(item);
     setSheetOpen(true);
   };
 
+  const handleRefresh = () => {
+    setRefreshKey(prev => prev + 1);
+  };
+
   const renderView = () => {
     switch(activeView) {
       case 'Home':
-        return <HomeView onOpenSheet={handleOpenSheet} />;
+        return <HomeView key={`home-${refreshKey}`} onOpenSheet={handleOpenSheet} />;
       case 'Timetable':
-        return <TimetableView onOpenSheet={handleOpenSheet} />;
+        return <TimetableView key={`timetable-${refreshKey}`} onOpenSheet={handleOpenSheet} />;
       case 'Grades':
-        return <GradesView onOpenSheet={handleOpenSheet} />;
+        return <GradesView key={`grades-${refreshKey}`} onOpenSheet={handleOpenSheet} />;
       case 'Absences':
-        return <AbsencesView />;
+        return <AbsencesView key={`absences-${refreshKey}`} />;
       case 'Exams':
-        return <ExamsView />;
+        return <ExamsView key={`exams-${refreshKey}`} />;
       case 'Announcements':
-        return <AnnouncementsView onOpenSheet={handleOpenSheet} />;
+        return <AnnouncementsView key={`announcements-${refreshKey}`} onOpenSheet={handleOpenSheet} />;
       case 'Settings':
-        return <SettingsView />;
+        return <SettingsView key={`settings-${refreshKey}`} />;
       default:
-        return <HomeView onOpenSheet={handleOpenSheet} />;
+        return <HomeView key={`home-${refreshKey}`} onOpenSheet={handleOpenSheet} />;
     }
   }
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground">
-      <Header activeView={activeView} onNavigate={setActiveView} />
+      <Header activeView={activeView} onNavigate={setActiveView} onRefresh={handleRefresh} />
       <main className="flex-1 overflow-y-auto pb-24">
         <div className="container mx-auto max-w-4xl pt-6">
          {renderView()}

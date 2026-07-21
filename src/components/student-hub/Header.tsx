@@ -1,4 +1,4 @@
-import { Settings } from 'lucide-react';
+import { Settings, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { View } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -10,12 +10,21 @@ import { getUser } from '@/lib/api';
 interface HeaderProps {
   activeView: View;
   onNavigate: (view: View) => void;
+  onRefresh: () => void;
 }
 
-export function Header({ activeView, onNavigate }: HeaderProps) {
+export function Header({ activeView, onNavigate, onRefresh }: HeaderProps) {
   const { anonymizeName } = usePrivacy();
   const { t } = useLanguage();
   const [userFirstName, setUserFirstName] = useState<string>(t('common.loading'));
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    onRefresh();
+    // Reset the spinner after a reasonable time even if data loads fast
+    setTimeout(() => setIsRefreshing(false), 1000);
+  };
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -47,7 +56,18 @@ export function Header({ activeView, onNavigate }: HeaderProps) {
       <h1 className="text-xl font-bold text-foreground">
         {getTitle()}
       </h1>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1">
+        <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className={cn(isRefreshing && 'animate-spin')}
+            aria-label="Refresh data"
+        >
+          <RefreshCw className="h-5 w-5" />
+          <span className="sr-only">Refresh</span>
+        </Button>
         <Button 
             variant="ghost" 
             size="icon" 
